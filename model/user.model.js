@@ -1,10 +1,10 @@
 const mongoose=require('mongoose')
 
 const LoginSchema=mongoose.Schema({
-    Username:String,
-    Password:String
+    username:String,
+    password:String
 });
 
-const User=mongoose.model("User",LoginSchema)
+const Login=mongoose.model("login",LoginSchema)
 
-module.exports=User
+module.exports=Login

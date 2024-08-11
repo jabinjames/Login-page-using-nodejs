@@ -17,11 +17,11 @@
                 <li>About</li>
                 <li>service</li>
                 <li>Contact</li>
-                <button class="btn">Login</button>
+                <button class="btn">Signup</button>
             </ul>
         </div>
     </div>
-    <form action="/home/login" method="post">
+    <form action="/home/signup" method="post">
         <div class="second_container">
             <h1 id="registration">Registration</h1>
             <div class="for_easy">
@@ -39,12 +39,14 @@
     
                 <label class="radiobtn"><input type="checkbox" >I agree the terms and condition</label>            
                 <br>
-                <button class="btn2">Register</button>
-                
+                <button class="btn2">Signup</button>
+                <br>
+                <label id="label" for="text">Already have an account?<a href='./login.html'>Login</a></label>
             </div>
+        </div>
     </form>
-    </div>
-    <script src="script.js"></script>
+    <script src="signup.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 

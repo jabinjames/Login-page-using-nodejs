@@ -1,31 +1,20 @@
 var button_1=document.getElementsByClassName("btn")[0];
-button_1.addEventListener("click",async(event)=>{
+button_1.addEventListener("click",async (event)=>{
 event.preventDefault();
 var login_page=document.getElementsByClassName("second_container")[0];
 showpage(login_page);
-
-try {
-    const response = await axios.post('http://localhost:5000/home/login', data);
-    console.log('Response:', response.data);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-
-
-
-
 });
 function showpage(element)
 {
         element.style.visibility='visible';
 }
-var username = document.getElementsByTagName("input")[0];
-let email = document.getElementById("email");
-var password = document.getElementById("password");
+const username = document.getElementsByTagName("input")[0];
+const email = document.getElementById("email");
+const password = document.getElementById("password");
 
 var button_2 = document.getElementsByClassName("btn2")[0];
 var second_container=document.getElementsByTagName('div')[2];
-button_2.addEventListener("click", (event) => {
+button_2.addEventListener("click", async(event) => {
     event.preventDefault();
     if (username.value === "") {
         showError(username);
@@ -44,14 +33,26 @@ button_2.addEventListener("click", (event) => {
     } else {
         showSuccess(password);
     }
-    if(username.value !== ""&& email.value !== ""&&password.value !== "")
+    if(username.value !== ""&& email.value!== ""&&password.value!== "")
     {
-        second_container.remove();
+        // second_container.remove();
+        
     }
     else
     {
         alert("SOMETHING MISSING!!!");
     }
+    try {
+        const response = await axios.post('http://localhost:5000/home/signup', {
+            username: username.value,
+            password: password.value
+        });
+        console.log('Response:', response.data);
+        alert("signup successfully completed")
+    } catch (error) {
+        console.error('Error:', error);
+        alert("error")
+  }
 });
 
 function showError(element) {
