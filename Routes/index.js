@@ -44,4 +44,7 @@ router.post("/signup",async(req,res)=>{
 router.get('/Login',(req,res)=>{
     res.sendFile(path.join(__dirname,'../public/login.html'));
 })
+router.get('/Signup',(req,res)=>{
+    res.sendFile(path.join(__dirname,'../public/signup.html'));
+})
 module.exports=router

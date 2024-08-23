@@ -19,5 +19,5 @@ ConnectDb()
 app.use('/home',router)
 
 app.listen(process.env.PORT,()=>{
-    console.log("server is running")
+    console.log(`server is running on ${process.env.PORT}`)
 })
