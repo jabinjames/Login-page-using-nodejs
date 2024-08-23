@@ -45,6 +45,7 @@ button_2.addEventListener("click", async(event) => {
     try {
         const response = await axios.post('http://localhost:5000/home/signup', {
             username: username.value,
+            email:email.value,
             password: password.value
         });
         console.log('Response:', response.data);
