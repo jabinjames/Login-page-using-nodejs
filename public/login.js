@@ -19,14 +19,20 @@ var button_2 = document.getElementsByClassName("btn2")[0];
 var second_container=document.getElementsByTagName('div')[2];
 button_2.addEventListener("click", async(event) => {
     event.preventDefault();
-    if (username.value === "" && email.value === "" && password.value === "") {
+    if (username.value === "") {
         showError(username);
-        showError(email);
-        showError(password);
-        alert("SOMETHING MISSING!!!");
     } else {
         showSuccess(username);
+    }
+
+    if (email.value === "") {
+        showError(email);
+    } else {
         showSuccess(email);
+    }
+    if (password.value === "") {
+        showError(password);
+    } else {
         showSuccess(password);
         try {
             const response = await fetch('http://localhost:5000/home/login', {
@@ -40,7 +46,7 @@ button_2.addEventListener("click", async(event) => {
                     password: password.value
                 })
             });
-            const data = await response.json(); // Parse the JSON from the response
+            const data = await response.json(); 
             if(response.status === 400)
             {
                 alert("ERROR ,CHECK USER NAME AND PASSWORD!!")

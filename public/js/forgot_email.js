@@ -1,34 +1,23 @@
-// var button_1=document.getElementsByClassName("btn")[0];
-// button_1.addEventListener("click",async (event)=>{
-// event.preventDefault();
 var login_page=document.getElementsByClassName("second_container")[0];
-// showpage(login_page);
-
-
-
-// });
-// function showpage(element)
-// {
-//         element.style.visibility='visible';
-// }
 login_page.style.visibility='visible';
 const username = document.getElementsByTagName("input")[0];
 const email = document.getElementById("email");
-// const password = document.getElementById("password");
-
 var button_2 = document.getElementsByClassName("btn2")[0];
 var second_container=document.getElementsByTagName('div')[2];
 button_2.addEventListener("click", async(event) => {
     event.preventDefault();
-    if (username.value === "" && email.value === "" ) {
+    if (username.value === "") {
         showError(username);
-        showError(email);
-        // showError(password);
-        alert("SOMETHING MISSING!!!");
-    } else {
+    }
+    else
+    {
         showSuccess(username);
+    }
+    if(email.value === ""){
+        showError(email);
+    }
+    else {
         showSuccess(email);
-        // showSuccess(password);
         try {
             const response = await fetch('http://localhost:5000/home/forgot_email', {
                 method: 'POST',
@@ -40,7 +29,7 @@ button_2.addEventListener("click", async(event) => {
                     email: email.value
                 })
             });
-            const data = await response.json(); // Parse the JSON from the response
+            const data = await response.json(); 
             if(response.status === 400)
                 {
                     alert("ERROR, CHECK EMAIL !!")

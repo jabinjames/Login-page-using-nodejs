@@ -27,23 +27,12 @@ button_2.addEventListener("click", async(event) => {
     } else {
         showSuccess(email);
     }
-
     if (password.value === "") {
         showError(password);
     } else {
         showSuccess(password);
-    }
-    if(username.value !== ""&& email.value!== ""&&password.value!== "")
-    {
-        // second_container.remove();
-        
-    }
-    else
-    {
-        alert("SOMETHING MISSING!!!");
-    }
-    try {
-        const response = await axios.post('http://localhost:5000/home/signup', {
+        try {
+         const response = await axios.post('http://localhost:5000/home/signup', {
             username: username.value,
             email:email.value,
             password: password.value
@@ -54,6 +43,8 @@ button_2.addEventListener("click", async(event) => {
         console.error('Error:', error);
         alert("error")
   }
+    }
+    
 });
 
 function showError(element) {

@@ -4,13 +4,12 @@ const Login=require('../model/user.model.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const path=require('path')
+const path=require('path');
 
 router.post("/login",async(req,res)=>{
     try {
         const {username,email,password}=req.body
         const existingUser = await Login.findOne({ username });
-        console.log(existingUser)
         if (!existingUser) {
             return res.status(400).json({message:"user not found"})
         }
@@ -34,70 +33,112 @@ router.post("/signup",async(req,res)=>{
         }
         const salt = await bcrypt.genSalt(10);
         const hashPassword=await bcrypt.hash(password,salt);
-        console.log(`Hashed password: ${hashPassword}`);
         const loginuser=new Login({
             username:username,email:email,password:hashPassword })
          await loginuser.save() 
          res.status(200).json({status:200,message:"successfully inserted into login collection",Login:loginuser})
     } catch (error) {
-        res.status(406).json({status:406,message:"errorer1111",err:error.message})
+        res.status(400).json({status:406,message:"errorer1111",err:error.message})
     }  
+    
 })
 router.post('/forgot_email',async(req,res)=>{
     const {username,email}=req.body
-
+    req.session.email = email;
     const existingemail = await Login.findOne({email});
-    console.log(existingemail)
     if(!existingemail)
     {
         res.status(400).json({status:400,message:"email is not founded"})
     }
     else
     {
-        //res.status(200).json({status:200,message:"email is founded"})
-        
         let otp = Math.floor(1000 + Math.random() * 9000);
         console.log(otp);
         secret_key=process.env.SECRET_KEY
-        console.log(secret_key)
-        const token = jwt.sign({ email, otp },secret_key, { expiresIn: '1h' });
+        const token = jwt.sign({ email, otp },secret_key, { expiresIn: '5m' });
 
-        res.cookie('jwttoken', token, { httpOnly: true, secure: true, maxAge: 3600000 });
-        // res.render('otp.ejs');
+        res.cookie('jwttoken', token, { httpOnly: true, secure: true, maxAge: 300000 });
+
         let transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',  
             port: 465,  
-            secure: true, // Use TLS or SSL (false for TLS, true for SSL on port 465)
+            secure: true, 
             auth: {
-                user: process.env.EMAIL_ADDRESS, // Your email address
-                pass: process.env.EMAIL_PASSWORD // Your email password
+                user: process.env.EMAIL_ADDRESS, 
+                pass: process.env.EMAIL_PASSWORD 
             }
         });
-        // Define the email options
+
         let mailOptions = {
-            from: '"jabin james"< process.env.EMAIL_ADDRESS>', // Sender's name and email address
-            to: email, // List of recipients (can be a single address or an array of addresses)
-            subject: 'OTP', // Subject line
-            text: `YOUR OTP CODE IS ${otp}`, // Plain text body
-            html: `YOUR OTP CODE IS ${otp}` // HTML body (optional)
+            from: '"OTP"< process.env.EMAIL_ADDRESS>',
+            to: email, 
+            subject: 'OTP', 
+            text: `YOUR OTP CODE IS ${otp}`, 
+            html: `YOUR OTP CODE IS ${otp}` 
         };
         
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                 console.log('Error occurred: ' + error.message);
-                res.status(500).json({ message: 'Failed to send email', error: error.message });
+                res.status(400).json({ message: 'Failed to send email', error: error.message });
             }
-            console.log('Message sent: %s', info.messageId);
             res.status(200).json({ message: 'Email sent successfully!' });
         });
     }
     
 
-})
+});
+router.post("/forgot_otp", async (req,res)=>{
+    const otp=req.body.otp;
+    const userotp=req.cookies.jwttoken;
+    if (!userotp) {
+        return res.status(400).json({ message: 'No token provided, access denied.' });
+    }
+    const user=jwt.verify(userotp,process.env.SECRET_KEY)
+    const checkotp=user.otp
+    if(checkotp==otp)
+    {
+        return res.status(200).json({ message: 'otp verified' });
+    }
+    else
+    {
+        return res.status(400).json({ message: 'Timeout' });
+    }
+});
+router.post("/forgot_newpassword",async(req,res)=>{
+    try{
+        const {newpassword,confirmpassword}=req.body;
+        
+        if(newpassword!=confirmpassword || newpassword === undefined|| confirmpassword === undefined)
+        {
+            return res.status(400).json({ message: 'New password and confirm password do not match' });
+
+        }
+        else
+    {
+            const email = req.session.email;
+            const salt = await bcrypt.genSalt(10);
+            const hashPassword=await bcrypt.hash(newpassword,salt);
+            const updateResult = await Login.updateOne(
+             { email:email }, 
+             { $set: { password: hashPassword } }
+             );
+      
+            if (updateResult.modifiedCount > 0) {
+                res.status(200).json({ message: 'Password updated successfully!' });
+            } else {
+                res.status(400).json({ message: 'User not found or password not updated' });
+            }
+    }
+        }
+ catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+}
+}
+)
 router.get('/Login',(req,res)=>{
     res.sendFile(path.join(__dirname,'../public/login.html'));
-})
+});
 router.get('/Signup',(req,res)=>{
     res.sendFile(path.join(__dirname,'../public/signup.html'));
-})
+});
 module.exports=router
