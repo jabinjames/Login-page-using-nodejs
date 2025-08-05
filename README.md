@@ -3,6 +3,7 @@
 This is a Node.js + Express backend server that supports user authentication and password reset via OTP (One-Time Password) through email. It uses MongoDB for data storage and JWT (JSON Web Tokens) for session management.
 
 🚀 Features
+
 ✅ User Sign Up with username, email, and password
 
 ✅ Passwords are securely hashed using bcrypt
@@ -18,6 +19,7 @@ This is a Node.js + Express backend server that supports user authentication and
 ✅ Environment variable support using dotenv
 
 🛠️ Technologies Used
+
 | Tech               | Description                          |
 | ------------------ | ------------------------------------ |
 | Node.js + Express  | Backend server                       |
@@ -30,7 +32,7 @@ This is a Node.js + Express backend server that supports user authentication and
 
 📦 Installation
 1. Clone the repository:
-git clone https://github.com/your-username/your-repo-name.git
+git clone [https://github.com/your-username/your-repo-name.git](https://github.com/jabinjames/Login-page-using-nodejs)
 cd your-repo-name
 
 2. Install dependencies:
