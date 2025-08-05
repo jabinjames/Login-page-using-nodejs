@@ -1,4 +1,5 @@
 🔐 MERN Authentication System
+
 This is a Node.js + Express backend server that supports user authentication and password reset via OTP (One-Time Password) through email. It uses MongoDB for data storage and JWT (JSON Web Tokens) for session management.
 
 🚀 Features
