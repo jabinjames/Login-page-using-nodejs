@@ -32,12 +32,15 @@ This is a Node.js + Express backend server that supports user authentication and
 
 📦 Installation
 1. Clone the repository:
-git clone [https://github.com/your-username/your-repo-name.git](https://github.com/jabinjames/Login-page-using-nodejs)
-cd your-repo-name
 
-2. Install dependencies:
+git clone [https://github.com/your-username/your-repo-name.git](https://github.com/jabinjames/Login-page-using-nodejs)
+
+
+3. Install dependencies:
+
 npm install
 
-3. Run the server:
+5. Run the server:
+
 npm start
 
