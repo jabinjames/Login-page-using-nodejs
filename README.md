@@ -44,3 +44,23 @@ npm install
 
 npm start
 
+📂 API Endpoints
+
+| Method | Endpoint           | Description                   |
+| ------ | ------------------ | ----------------------------- |
+| POST   | `/signup`          | User registration             |
+| POST   | `/login`           | User login (JWT)              |
+| POST   | `/forgot-password` | Send OTP to email             |
+| POST   | `/verify-otp`      | Verify OTP and reset password |
+
+🔒 Security Notes
+
+. Passwords are stored only after hashing with bcrypt
+
+. JWT tokens are sent via HTTP-only cookies
+
+. Environment variables (in .env) handle sensitive data
+
+📝 License
+
+This project is open-source and available under the MIT License.
